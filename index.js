@@ -15,7 +15,8 @@ exec('git remote -v', (err, stdout) => {
        let lines = stdout.split("\n");
        lines.forEach((line) => {
            console.log(line);
-           let fields = line.split(" ");
+           let fields = line.split("  ");
+            console.log(fields);
            if(fields[2] === "(push)") {
                remote = fields[1];
                console.log(remote);
