@@ -65,6 +65,7 @@ exec('git remote -v', (err, stdout) => {
                 exec(`git push -u ${remote} autosave`, (err, res) => {
                     console.log(`> Pushed to ${remote}`)
                 });
+            }
         });
 
     }, 1000);
