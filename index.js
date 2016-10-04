@@ -50,11 +50,6 @@ exec('git remote -v', (err, stdout) => {
 
             });
 
-
-            // commit
-
-            // push
-
         }
 
     });
