@@ -62,7 +62,7 @@ exec('git remote -v', (err, stdout) => {
     setInterval(() => {
         exec(`git commit -am "Autosave ${ new moment().format('L HH:mm:ss')}"`, (err, res) => {
             if(!err) {
-                exec(`git push ${remote} autosave`, (err, res) => {
+                exec(`git push -u ${remote} autosave`, (err, res) => {
                     console.log(`> Pushed to ${remote}`)
                 });
         });
