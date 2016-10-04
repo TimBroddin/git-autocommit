@@ -17,61 +17,57 @@ exec('git remote -v', (err, stdout) => {
            let fields = line.split("\t");
            console.log(fields.length, fields[1]);
            if(fields[1] && fields[1].indexOf("(push)") > -1) {
-
                remote = fields[0];
-
-               console.log(remote);
-
            }
 
        })
    }
-});
 
 
+    try {
+        ignore = fs.readFileSync('.gitignore', { encoding: 'utf-8'}).split("\n");
+    } catch(e) {
+        console.log('No gitignore');
+    }
 
-try {
-    ignore = fs.readFileSync('.gitignore', { encoding: 'utf-8'}).split("\n");
-} catch(e) {
-    console.log('No gitignore');
-}
-
-console.log(ignore);
+    console.log(ignore);
 
 
 // One-liner for current directory, ignores .dotfiles
-chokidar.watch('.', {ignored: /[\/\\]\./}).on('all', (event, path) => {
-    let change = true;
-    ignore.forEach((entry) => {
-       if(path.toLowerCase().indexOf(entry.toLowerCase()) !== -1) {
-            change = false;
-       }
-    });
-    if(change) {
-        console.log('Change detected > ' + path);
-        // fork
-        exec('git checkout -b autosave', (err, res) => {
-            exec('git add ' + path);
-
-
+    chokidar.watch('.', {ignored: /[\/\\]\./}).on('all', (event, path) => {
+        let change = true;
+        ignore.forEach((entry) => {
+            if(path.toLowerCase().indexOf(entry.toLowerCase()) !== -1) {
+                change = false;
+            }
         });
+        if(change) {
+            console.log('Change detected > ' + path);
+            // fork
+            exec('git checkout -b autosave', (err, res) => {
+                exec('git add ' + path);
 
 
-        // commit
+            });
 
-        // push
 
-    }
+            // commit
 
-});
-
-setInterval(() => {
-    exec(`git commit -am "Autosave ${ new moment().format('L HH:mm:ss')}"`, (err, res) => {
-        if(!err) {
-            console.log('no error');
-
+            // push
 
         }
+
     });
 
-}, 1000);
+    setInterval(() => {
+        exec(`git commit -am "Autosave ${ new moment().format('L HH:mm:ss')}"`, (err, res) => {
+            if(!err) {
+                exec(`git push ${remote} autosave`, (err, res) => {
+                    console.log(`> Pushed to ${remote}`)
+                });
+        });
+
+    }, 1000);
+});
+
+
