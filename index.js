@@ -49,7 +49,7 @@ chokidar.watch('.', {ignored: /[\/\\]\./}).on('all', (event, path) => {
 setInterval(() => {
     exec(`git commit -am "Autosave ${ new moment().format('L HH:mm:ss')}"`, (err, res) => {
         if(!err) {
-            console.log('no error');
+            console.log('no error'); 
         }
     });
 
