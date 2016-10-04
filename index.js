@@ -14,11 +14,11 @@ exec('git remote -v', (err, stdout) => {
    if(!err && stdout) {
        let lines = stdout.split("\n");
        lines.forEach((line) => {
-           console.log(line);
-           let fields = line.split("  ");
-            console.log(fields);
-           if(fields[2] === "(push)") {
-               remote = fields[1];
+           let fields = line.split("\t");
+           if(fields.length > 1 && fields[1].indexOf("(push)") ==! -1) {
+
+               remote = fields[1].split(" ")[1];
+
                console.log(remote);
 
            }
