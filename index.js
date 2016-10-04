@@ -6,7 +6,6 @@ var chokidar = require('chokidar');
 var fs = require('fs');
 var moment = require('moment');
 const exec = require('child_process').exec;
-
 let ignore = [];
 let remote = false;
 
@@ -23,14 +22,11 @@ exec('git remote -v', (err, stdout) => {
        })
    }
 
-
     try {
         ignore = fs.readFileSync('.gitignore', { encoding: 'utf-8'}).split("\n");
     } catch(e) {
         console.log('No gitignore');
     }
-
-    console.log(ignore);
 
 
 // One-liner for current directory, ignores .dotfiles
@@ -46,10 +42,7 @@ exec('git remote -v', (err, stdout) => {
             // fork
             exec('git checkout -b autosave', (err, res) => {
                 exec('git add ' + path);
-
-
             });
-
         }
 
     });
