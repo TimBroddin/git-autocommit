@@ -8,6 +8,22 @@ var moment = require('moment');
 const exec = require('child_process').exec;
 
 let ignore = [];
+let remote = false;
+
+exec('git remote -v', (err, stdout) => {
+   if(!err && stdout) {
+       let lines = stdout.split("\n");
+       lines.forEach((line) => {
+           let fields = line.split("\t");
+           if(fields[2] === "(push)") {
+               remote = fields[1];
+               console.log(remote);
+
+           }
+
+       })
+   }
+});
 
 
 
